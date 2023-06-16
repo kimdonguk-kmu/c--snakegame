@@ -122,7 +122,7 @@ void game(int level){
 
         Snake snake(3, x, y, dir, map[level-1]);
         WINDOW *win1 = newwin(30, 60, 0, 0);
-        Score score(6, 2, 2, 1, level);
+        Score score(3, 1, 0, 0, level);
         g.spawnGrowth(map[level-1]);
         p.spawnPoison(map[level-1]);
         gt.spawnGate(map[level-1]);
@@ -190,12 +190,24 @@ void game(int level){
             tick++;
         
     }
+    clear();
+}
+
+void breakWindow(int level){
+    initscr();
+    mvprintw(0, 0, "level %d", level);
+    mvprintw(1, 0, "you can start after 3 seconds to press any key");
+    refresh();
+    napms(3000);
+    getch();
+    endwin();
 }
 
 int main()
 {
     std::cout << "game start" << std::endl;
     while (level < 5){
+        breakWindow(level);
         game(level);
         endwin();
         if (!cleared){
@@ -204,7 +216,7 @@ int main()
         level++;
     }
 
-    endwin();
+    //endwin();
     std::cout << "Game Over" << std::endl;
     return 0;
 }

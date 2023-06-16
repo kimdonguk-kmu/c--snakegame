@@ -37,9 +37,9 @@ void Score::printScoreBoard(){
     wborder(scoreboard, '|', '|', '-', '-', '+', '+', '+', '+');
     mvwprintw(scoreboard, 1, 1, "Score Board");
     mvwprintw(scoreboard, 2, 1, "B:(CurrentLength)/(Max  Length) %d/%d", cntLen, 10); //maxsnakeLen = 10;
-    mvwprintw(scoreboard, 3, 1, "G:(number of Growth): %d", cntGrowth);
-    mvwprintw(scoreboard, 4, 1, "P:(number of Poison): %d", cntPoison);
-    mvwprintw(scoreboard, 5, 1, "GT:(number of Gate): %d", cntGate);
+    mvwprintw(scoreboard, 3, 1, "+:(number of Growth): %d", cntGrowth);
+    mvwprintw(scoreboard, 4, 1, "-:(number of Poison): %d", cntPoison);
+    mvwprintw(scoreboard, 5, 1, "G:(number of Gate): %d", cntGate);
     mvwprintw(scoreboard, 6, 1, "Level: %d", level);
     mvwprintw(scoreboard, 7, 1, "time: %d", second);
     wrefresh(scoreboard);
@@ -51,9 +51,9 @@ void Score::printMission(){
     wborder(mission, '|', '|', '-', '-', '+', '+', '+', '+');
     mvwprintw(mission, 1, 1, "Mission");
     mvwprintw(mission, 2, 1, "B:(CurrentLength)/(Goal  Length) %d/%d", cntLen, goalLen); 
-    mvwprintw(mission, 3, 1, "G:(CurrentGrowth)/(Goal  Growth): %d/%d", cntGrowth, goalGrowth);
-    mvwprintw(mission, 4, 1, "P:(CurrentPoison)/(Goal  Poison): %d/%d", cntPoison, goalPoison);
-    mvwprintw(mission, 5, 1, "GT:(CurrentGate)/(Goal  Gate): %d/%d", cntGate, goalGate);
+    mvwprintw(mission, 3, 1, "+:(CurrentGrowth)/(Goal  Growth): %d/%d", cntGrowth, goalGrowth);
+    mvwprintw(mission, 4, 1, "-:(CurrentPoison)/(Goal  Poison): %d/%d", cntPoison, goalPoison);
+    mvwprintw(mission, 5, 1, "G:(CurrentGate)/(Goal  Gate): %d/%d", cntGate, goalGate);
     wrefresh(mission);
 }
 
