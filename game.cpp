@@ -12,7 +12,7 @@ extern int map[4][30][60];
 bool gameOver, cleared;
 const int width = 30;
 const int height = 60;
-int x, y, level;
+int x, y, level=1;
 Direction dir;
 
 void Draw(WINDOW* win, Snake snake, int map[30][60])
@@ -93,8 +93,7 @@ void Input(WINDOW* win, Snake snake)
 }
 
 
-void game(){
-    level = 1;
+void game(int level){
         initscr();
         clear();
         noecho();
@@ -110,6 +109,7 @@ void game(){
         init_pair(3, COLOR_GREEN, COLOR_WHITE);
         init_pair(4, COLOR_YELLOW, COLOR_RED);
         gameOver = false;
+        cleared = false;
         x = width / 2;
         y = height / 2;
         Growth g = Growth();
@@ -126,12 +126,12 @@ void game(){
         g.spawnGrowth(map[level-1]);
         p.spawnPoison(map[level-1]);
         gt.spawnGate(map[level-1]);
-        //mvwprintw(win1, 0, 0, "loading");
         wrefresh(win1);
         int gcnt = 0;
         int pcnt = 0;
         int gtcnt = 0;
         int gating = 0;
+        int tick = 0;
         while (!gameOver){
             Draw(win1, snake, map[level-1]);
             score.printScoreBoard();
@@ -160,6 +160,7 @@ void game(){
             }
             if (snake.isgate() && (gating == 0)){
                 gating = gtcnt;
+                score.plusGate();
             }
             if (gtcnt - gating > snake.getBody().size()){
                 snake.isgating = false;
@@ -169,7 +170,15 @@ void game(){
                 gt.spawnGate(map[level-1]);
                 gtcnt = 0;
             }
+            if (tick == 10){
+                score.second++;
+                tick =0;
+            }
             if (snake.isdead()){
+                gameOver = true;
+            }
+            if (score.iscleared()){
+                cleared = true;
                 gameOver = true;
             }
             dir = snake.move(map[level-1], gt);
@@ -178,6 +187,7 @@ void game(){
             gcnt++;
             pcnt++;
             gtcnt++;
+            tick++;
         
     }
 }
@@ -185,7 +195,14 @@ void game(){
 int main()
 {
     std::cout << "game start" << std::endl;
-    game();
+    while (level < 5){
+        game(level);
+        endwin();
+        if (!cleared){
+            break;
+        }
+        level++;
+    }
 
     endwin();
     std::cout << "Game Over" << std::endl;

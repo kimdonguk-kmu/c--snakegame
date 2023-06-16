@@ -41,6 +41,7 @@ void Score::printScoreBoard(){
     mvwprintw(scoreboard, 4, 1, "P:(number of Poison): %d", cntPoison);
     mvwprintw(scoreboard, 5, 1, "GT:(number of Gate): %d", cntGate);
     mvwprintw(scoreboard, 6, 1, "Level: %d", level);
+    mvwprintw(scoreboard, 7, 1, "time: %d", second);
     wrefresh(scoreboard);
 }
 
@@ -54,4 +55,8 @@ void Score::printMission(){
     mvwprintw(mission, 4, 1, "P:(CurrentPoison)/(Goal  Poison): %d/%d", cntPoison, goalPoison);
     mvwprintw(mission, 5, 1, "GT:(CurrentGate)/(Goal  Gate): %d/%d", cntGate, goalGate);
     wrefresh(mission);
+}
+
+bool Score::iscleared(){
+    return (cntLen >= goalLen) && (cntGrowth >= goalGrowth) && (cntPoison >= goalPoison) && (cntGate >= goalGate);
 }

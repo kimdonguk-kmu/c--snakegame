@@ -22,4 +22,6 @@ class Score{
 
         void printScoreBoard();
         void printMission();
+
+        bool iscleared();
 };
