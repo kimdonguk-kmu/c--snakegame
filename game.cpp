@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <vector>
 #include "snake.h"
+#include "growth.h"
+#include "poison.h"
 
 extern int map1[30][60];
 bool gameOver;
@@ -11,31 +13,34 @@ const int height = 60;
 int x, y, fruitX, fruitY, score;
 Direction dir;
 
-void Draw(WINDOW* win, Snake snake)
+void Draw(WINDOW* win, Snake snake, int map[30][60])
 {
     werase(win);
     for (int i = 0; i < width; i++){
         for (int j = 0; j < height; j++){
-            if (map1[i][j] == 1)
-                mvwprintw(win, i, j, "&");
-            else if (map1[i][j] == 0)
+            if (map[i][j] == 0)
                 mvwprintw(win, i, j, " ");
-            else{
+            else if (map[i][j] == 1)
+                mvwprintw(win, i, j, "&");
+            else if (map[i][j] == 2)
                 mvwprintw(win, i, j, "#");
-            }
+            else if (map[i][j] == 3)
+                mvwprintw(win, i, j, "O");
+            else if (map[i][j] == 4)
+                mvwprintw(win, i, j, "o");
+            else if (map[i][j] == 5)
+                mvwprintw(win, i, j, "*");
+            else if (map[i][j] == 6)
+                mvwprintw(win, i, j, "x");
+            else
+                mvwprintw(win, i, j, "$");
         }
     }
-    vector<pair<int, int>> sbody = snake.getBody();
-        auto it = sbody.begin();
-        for (; it != sbody.end(); it++){
-            mvwaddch(win, (*it).first, (*it).second, 'O');
-        }
     wrefresh(win);
 }
 
 void Input(WINDOW* win, Snake snake)
 {
-    halfdelay(1);
     int c = getch();
     Direction d = snake.getDirection();
     usleep(100000);
@@ -89,24 +94,50 @@ void game(){
     cbreak();
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
+    srand(time(NULL));
     curs_set(0);
     gameOver = false;
     x = width / 2;
     y = height / 2;
-    fruitX = rand() % width;
-    fruitY = rand() % height;
+    Growth g = Growth();
+    Poison p = Poison();
     score = 0;
     dir = Direction::UP;
 
-    Snake snake(3, x, y, dir);
+    Snake snake(3, x, y, dir, map1);
     WINDOW *win1 = newwin(30, 60, 0, 0);
+    g.spawnGrowth(map1);
+    p.spawnPoison(map1);
     wrefresh(win1);
+    int gcnt = 0;
+    int pcnt = 0;
     while (!gameOver){
-        Draw(win1, snake);
+        Draw(win1, snake, map1);
         Input(win1, snake);
+        if (map1[g.getPX()][g.getPY()] == 3){
+            snake.plusbody(map1);
+        }
+        else if (map1[p.getPX()][p.getPY()] == 3){
+            snake.minusbody(map1);
+        }
+        if (gcnt >= 50){
+            g.despawnGrowth(map1);
+            g.spawnGrowth(map1);
+            gcnt = 0;
+        }
+        if (pcnt >= 50){
+            p.despawnPoison(map1);
+            p.spawnPoison(map1);
+            pcnt = 0;
+        }
+        if (snake.getLength() < 3){
+            gameOver = true;
+        }
         snake.setDirection(dir);
-        snake.move();
+        snake.move(map1);
         wrefresh(win1);
+        gcnt++;
+        pcnt++;
     }
 }
 

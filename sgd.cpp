@@ -10,7 +10,7 @@ int x, y, fruitX, fruitY, score;
 enum eDirection {LEFT, RIGHT, UP, DOWN };
 eDirection dir;
 std::vector<int> tailX, tailY;
-extern int map1[40][40];
+//extern int map1[40][40];
 
 
 void Setup()
@@ -20,7 +20,6 @@ void Setup()
     noecho();
     cbreak();
     nodelay(stdscr, TRUE);
-    //timeout(100);
     curs_set(0);
     gameOver = false;
     dir = RIGHT;

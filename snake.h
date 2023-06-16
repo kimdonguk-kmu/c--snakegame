@@ -16,11 +16,15 @@ class Snake{
     public:
         const int MaxSnakeLen = 10;
 
-        Snake(int initSize, int initX, int initY, Direction initDirection);
+        Snake(int initSize, int initX, int initY, Direction initDirection, int map[30][60]);
         
-        void move();
+        void move(int map[30][60]);
         void setDirection(Direction Direction);
+
+        void plusbody(int map[30][60]);
+        void minusbody(int map[30][60]);
 
         vector<pair<int, int>> getBody() const;
         Direction getDirection() const;
+        int getLength() const;
 };
