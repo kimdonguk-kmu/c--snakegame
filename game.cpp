@@ -122,7 +122,7 @@ void game(int level){
 
         Snake snake(3, x, y, dir, map[level-1]);
         WINDOW *win1 = newwin(30, 60, 0, 0);
-        Score score(3, 1, 0, 0, level);
+        Score score(3, 1, 1, 1, level);
         g.spawnGrowth(map[level-1]);
         p.spawnPoison(map[level-1]);
         gt.spawnGate(map[level-1]);

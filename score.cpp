@@ -9,8 +9,8 @@ Score::Score(int len, int growth, int poison, int gate, int lv){
     goalGate = gate;
     level = lv;
 
-    scoreboard = newwin(10, 40, 0, 60);
-    mission = newwin(10, 40, 20, 60);
+    scoreboard = newwin(10, 60, 0, 60);
+    mission = newwin(10, 60, 20, 60);
     wrefresh(scoreboard);
     wrefresh(mission);
 }
@@ -18,13 +18,28 @@ Score::Score(int len, int growth, int poison, int gate, int lv){
 void Score::plusGrow(){
     cntGrowth += 1;
     cntLen += 1;
+    if (cntGrowth >= goalGrowth){
+        mG = 'V';
+    }
+    if (cntLen >= goalLen){
+        mB = 'V';
+    }
 }
 void Score::plusPoison(){
     cntPoison += 1;
     cntLen -= 1;
+    if (cntPoison >= goalPoison){
+        mG = 'V';
+    }
+    if (cntLen <= goalLen){
+        mB = 'X';
+    }
 }
 void Score::plusGate(){
     cntGate += 1;
+    if (cntGate >= goalGate){
+        mG = 'V';
+    }
 }
 
 void Score::tick(){
@@ -50,10 +65,10 @@ void Score::printMission(){
     wbkgd(mission, COLOR_PAIR(level));
     wborder(mission, '|', '|', '-', '-', '+', '+', '+', '+');
     mvwprintw(mission, 1, 1, "Mission");
-    mvwprintw(mission, 2, 1, "B:(CurrentLength)/(Goal  Length) %d/%d", cntLen, goalLen); 
-    mvwprintw(mission, 3, 1, "+:(CurrentGrowth)/(Goal  Growth): %d/%d", cntGrowth, goalGrowth);
-    mvwprintw(mission, 4, 1, "-:(CurrentPoison)/(Goal  Poison): %d/%d", cntPoison, goalPoison);
-    mvwprintw(mission, 5, 1, "G:(CurrentGate)/(Goal  Gate): %d/%d", cntGate, goalGate);
+    mvwprintw(mission, 2, 1, "B:(CurrentLength)/(Goal Length) %d/%d (%c)", cntLen, goalLen, mB); 
+    mvwprintw(mission, 3, 1, "+:(CurrentGrowth)/(Goal Growth): %d/%d (%c)", cntGrowth, goalGrowth, mG);
+    mvwprintw(mission, 4, 1, "-:(CurrentPoison)/(Goal Poison): %d/%d (%c)", cntPoison, goalPoison, mP);
+    mvwprintw(mission, 5, 1, "G:(CurrentGate)/(Goal Gate): %d/%d (%c)", cntGate, goalGate, mGT);
     wrefresh(mission);
 }
 

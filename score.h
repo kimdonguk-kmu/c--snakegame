@@ -9,6 +9,11 @@ class Score{
         int goalLen, goalGrowth, goalPoison, goalGate;
         int level;
 
+        char mB = 'X';
+        char mG = 'X';
+        char mP = 'X';
+        char mGT = 'X';
+
         WINDOW* scoreboard;
         WINDOW* mission;
 
