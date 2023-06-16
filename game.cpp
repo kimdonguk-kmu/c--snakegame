@@ -5,6 +5,7 @@
 #include "snake.h"
 #include "growth.h"
 #include "poison.h"
+#include "score.h"
 
 extern int map1[30][60];
 bool gameOver;
@@ -96,6 +97,12 @@ void game(){
     nodelay(stdscr, TRUE);
     srand(time(NULL));
     curs_set(0);
+
+    start_color();
+    init_pair(1, COLOR_MAGENTA, COLOR_CYAN);
+    init_pair(2, COLOR_BLUE, COLOR_BLACK);
+    init_pair(3, COLOR_GREEN, COLOR_WHITE);
+    init_pair(4, COLOR_YELLOW, COLOR_RED);
     gameOver = false;
     x = width / 2;
     y = height / 2;
@@ -106,6 +113,7 @@ void game(){
 
     Snake snake(3, x, y, dir, map1);
     WINDOW *win1 = newwin(30, 60, 0, 0);
+    Score score(6, 2, 2, 1);
     g.spawnGrowth(map1);
     p.spawnPoison(map1);
     wrefresh(win1);
@@ -113,12 +121,16 @@ void game(){
     int pcnt = 0;
     while (!gameOver){
         Draw(win1, snake, map1);
+        score.printScoreBoard();
+        score.printMission();
         Input(win1, snake);
         if (map1[g.getPX()][g.getPY()] == 3){
             snake.plusbody(map1);
+            score.plusGrow();
         }
         else if (map1[p.getPX()][p.getPY()] == 3){
             snake.minusbody(map1);
+            score.plusPoison();
         }
         if (gcnt >= 50){
             g.despawnGrowth(map1);
