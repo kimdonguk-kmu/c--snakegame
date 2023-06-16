@@ -95,11 +95,6 @@ void Input(WINDOW* win, Snake snake)
 
 void game(){
     level = 1;
-    // for (int i = 0; i < 30; i++){
-    //     for (int j = 0; j < 60; j++){
-    //         std::cout << map1[i][j] << std::endl;
-    //     }
-    // }
         initscr();
         clear();
         noecho();
@@ -118,19 +113,19 @@ void game(){
         x = width / 2;
         y = height / 2;
         Growth g = Growth();
-        g.makevector(map[1]);
+        g.makevector(map[level-1]);
         Poison p = Poison();
-        p.makevector(map[1]);
+        p.makevector(map[level-1]);
         Gate gt = Gate();
-        gt.makewallvector(map[1]);
+        gt.makewallvector(map[level-1]);
         dir = Direction::UP;
 
-        Snake snake(3, x, y, dir, map[1]);
+        Snake snake(3, x, y, dir, map[level-1]);
         WINDOW *win1 = newwin(30, 60, 0, 0);
         Score score(6, 2, 2, 1, level);
-        g.spawnGrowth(map[1]);
-        p.spawnPoison(map[1]);
-        gt.spawnGate(map[1]);
+        g.spawnGrowth(map[level-1]);
+        p.spawnPoison(map[level-1]);
+        gt.spawnGate(map[level-1]);
         //mvwprintw(win1, 0, 0, "loading");
         wrefresh(win1);
         int gcnt = 0;
@@ -138,29 +133,29 @@ void game(){
         int gtcnt = 0;
         int gating = 0;
         while (!gameOver){
-            Draw(win1, snake, map[1]);
+            Draw(win1, snake, map[level-1]);
             score.printScoreBoard();
             score.printMission();
             Input(win1, snake);
             snake.setDirection(dir);
-            if (map[1][g.getPX()][g.getPY()] == 3){
+            if (map[level-1][g.getPX()][g.getPY()] == 3){
                 if (snake.getBody().size() < snake.MaxSnakeLen){
-                    snake.plusbody(map[1]);
+                    snake.plusbody(map[level-1]);
                     score.plusGrow();
                 }
             }
-            else if (map[1][p.getPX()][p.getPY()] == 3){
-                snake.minusbody(map[1]);
+            else if (map[level-1][p.getPX()][p.getPY()] == 3){
+                snake.minusbody(map[level-1]);
                 score.plusPoison();
             }
             if (gcnt >= 50){
-                g.despawnGrowth(map[1]);
-                g.spawnGrowth(map[1]);
+                g.despawnGrowth(map[level-1]);
+                g.spawnGrowth(map[level-1]);
                 gcnt = 0;
             }
             if (pcnt >= 50){
-                p.despawnPoison(map[1]);
-                p.spawnPoison(map[1]);
+                p.despawnPoison(map[level-1]);
+                p.spawnPoison(map[level-1]);
                 pcnt = 0;
             }
             if (snake.isgate() && (gating == 0)){
@@ -170,14 +165,14 @@ void game(){
                 snake.isgating = false;
             }
             if (gtcnt >= 50 && !(snake.isgate())){
-                gt.despawnGate(map[1]);
-                gt.spawnGate(map[1]);
+                gt.despawnGate(map[level-1]);
+                gt.spawnGate(map[level-1]);
                 gtcnt = 0;
             }
             if (snake.isdead()){
                 gameOver = true;
             }
-            dir = snake.move(map[1], gt);
+            dir = snake.move(map[level-1], gt);
             snake.setDirection(dir);
             wrefresh(win1);
             gcnt++;
