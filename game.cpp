@@ -1,5 +1,5 @@
 #include <iostream>
-#include <ncursesw/ncurses.h>
+#include <ncurses.h>
 #include <unistd.h>
 #include <vector>
 #include "snake.h"
