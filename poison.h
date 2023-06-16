@@ -1,9 +1,9 @@
 #ifndef POISON_H
 #define POISON_H
 
-#include "item.h"
+#include "object.h"
 
-class Poison : public Item{
+class Poison : public Object{
     public:
         Poison();
         void spawnPoison(int map[30][60]);

@@ -2,11 +2,12 @@
 
 using namespace std;
 
-Score::Score(int len, int growth, int poison, int gate){
+Score::Score(int len, int growth, int poison, int gate, int lv){
     goalLen = len;
     goalGrowth = growth;
     goalPoison = poison;
     goalGate = gate;
+    level = lv;
 
     scoreboard = newwin(10, 40, 0, 60);
     mission = newwin(10, 40, 20, 60);

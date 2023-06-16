@@ -7,11 +7,11 @@
 #include "poison.h"
 #include "score.h"
 
-extern int map1[30][60];
-bool gameOver;
+extern int map[4][30][60];
+bool gameOver, cleared;
 const int width = 30;
 const int height = 60;
-int x, y, fruitX, fruitY, score;
+int x, y, level;
 Direction dir;
 
 void Draw(WINDOW* win, Snake snake, int map[30][60])
@@ -89,76 +89,85 @@ void Input(WINDOW* win, Snake snake)
 
 
 void game(){
-    initscr();
-    clear();
-    noecho();
-    cbreak();
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-    srand(time(NULL));
-    curs_set(0);
+    level = 1;
+    // for (int i = 0; i < 30; i++){
+    //     for (int j = 0; j < 60; j++){
+    //         std::cout << map1[i][j] << std::endl;
+    //     }
+    // }
+        initscr();
+        clear();
+        noecho();
+        cbreak();
+        keypad(stdscr, TRUE);
+        nodelay(stdscr, TRUE);
+        srand(time(NULL));
+        curs_set(0);
 
-    start_color();
-    init_pair(1, COLOR_MAGENTA, COLOR_CYAN);
-    init_pair(2, COLOR_BLUE, COLOR_BLACK);
-    init_pair(3, COLOR_GREEN, COLOR_WHITE);
-    init_pair(4, COLOR_YELLOW, COLOR_RED);
-    gameOver = false;
-    x = width / 2;
-    y = height / 2;
-    Growth g = Growth();
-    Poison p = Poison();
-    score = 0;
-    dir = Direction::UP;
+        start_color();
+        init_pair(1, COLOR_MAGENTA, COLOR_CYAN);
+        init_pair(2, COLOR_BLUE, COLOR_BLACK);
+        init_pair(3, COLOR_GREEN, COLOR_WHITE);
+        init_pair(4, COLOR_YELLOW, COLOR_RED);
+        gameOver = false;
+        x = width / 2;
+        y = height / 2;
+        Growth g = Growth();
+        g.makevector(map[0]);
+        Poison p = Poison();
+        p.makevector(map[0]);
+        dir = Direction::UP;
 
-    Snake snake(3, x, y, dir, map1);
-    WINDOW *win1 = newwin(30, 60, 0, 0);
-    Score score(6, 2, 2, 1);
-    g.spawnGrowth(map1);
-    p.spawnPoison(map1);
-    wrefresh(win1);
-    int gcnt = 0;
-    int pcnt = 0;
-    while (!gameOver){
-        Draw(win1, snake, map1);
-        score.printScoreBoard();
-        score.printMission();
-        Input(win1, snake);
-        if (map1[g.getPX()][g.getPY()] == 3){
-            snake.plusbody(map1);
-            score.plusGrow();
-        }
-        else if (map1[p.getPX()][p.getPY()] == 3){
-            snake.minusbody(map1);
-            score.plusPoison();
-        }
-        if (gcnt >= 50){
-            g.despawnGrowth(map1);
-            g.spawnGrowth(map1);
-            gcnt = 0;
-        }
-        if (pcnt >= 50){
-            p.despawnPoison(map1);
-            p.spawnPoison(map1);
-            pcnt = 0;
-        }
-        if (snake.getLength() < 3){
-            gameOver = true;
-        }
-        snake.setDirection(dir);
-        snake.move(map1);
+        Snake snake(3, x, y, dir, map[0]);
+        WINDOW *win1 = newwin(30, 60, 0, 0);
+        Score score(6, 2, 2, 1, level);
+        g.spawnGrowth(map[0]);
+        p.spawnPoison(map[0]);
+        //mvwprintw(win1, 0, 0, "loading");
         wrefresh(win1);
-        gcnt++;
-        pcnt++;
+        int gcnt = 0;
+        int pcnt = 0;
+        while (!gameOver){
+            Draw(win1, snake, map[0]);
+            score.printScoreBoard();
+            score.printMission();
+            Input(win1, snake);
+            if (map[0][g.getPX()][g.getPY()] == 3){
+                snake.plusbody(map[0]);
+                score.plusGrow();
+            }
+            else if (map[0][p.getPX()][p.getPY()] == 3){
+                snake.minusbody(map[0]);
+                score.plusPoison();
+            }
+            if (gcnt >= 50){
+                g.despawnGrowth(map[0]);
+                g.spawnGrowth(map[0]);
+                gcnt = 0;
+            }
+            if (pcnt >= 50){
+                p.despawnPoison(map[0]);
+                p.spawnPoison(map[0]);
+                pcnt = 0;
+            }
+            if (snake.isdead()){
+                gameOver = true;
+            }
+            snake.setDirection(dir);
+            snake.move(map[0]);
+            wrefresh(win1);
+            gcnt++;
+            pcnt++;
+        
     }
 }
 
 int main()
 {
+    std::cout << "game start" << std::endl;
     game();
 
     endwin();
     std::cout << "Game Over" << std::endl;
-    std::cout << "Your Score: " << score << std::endl;
     return 0;
 }

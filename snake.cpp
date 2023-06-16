@@ -35,6 +35,10 @@ void Snake::move(int map[30][60]){
         }
 
         head = body[0];
+        if (map[head.first][head.second] == 2 or map[head.first][head.second] == 1){
+          dead = true;
+          return;
+        }
         map[head.first][head.second] = 3;
 
         // 꼬리 부분 제거
@@ -69,11 +73,18 @@ void Snake::plusbody(int map[30][60]){
 void Snake::minusbody(int map[30][60]){
   pair<int, int> tail = body.back();
   map[tail.first][tail.second] = 0;
-  body.pop_back();  
+  body.pop_back(); 
+  if (body.size() < 3){
+    dead = true;
+  } 
 }
 
 void Snake::setDirection(Direction newDirection){
   direction = newDirection;
+}
+
+bool Snake::isdead(){
+  return dead;
 }
 
 vector<pair<int, int>> Snake::getBody() const {

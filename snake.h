@@ -11,6 +11,7 @@ enum class Direction {
 
 class Snake{
     private:
+        bool dead = false;
         vector<pair<int, int>> body;
         Direction direction;
     public:
@@ -20,6 +21,8 @@ class Snake{
         
         void move(int map[30][60]);
         void setDirection(Direction Direction);
+
+        bool isdead();
 
         void plusbody(int map[30][60]);
         void minusbody(int map[30][60]);
