@@ -38,6 +38,7 @@ void Input(WINDOW* win, Snake snake)
     halfdelay(1);
     int c = getch();
     Direction d = snake.getDirection();
+    usleep(100000);
     switch (c)
     {
     case KEY_LEFT:
@@ -88,7 +89,6 @@ void game(){
     cbreak();
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
-    timeout(100);
     curs_set(0);
     gameOver = false;
     x = width / 2;
@@ -107,7 +107,6 @@ void game(){
         snake.setDirection(dir);
         snake.move();
         wrefresh(win1);
-        usleep(100000);
     }
 }
 
