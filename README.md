@@ -73,10 +73,9 @@ https://www.youtube.com/watch?v=Rygt4xVik3Q
 
 <h2> 작성자 </h2>
 
-'''
   + 이름: 김동욱
   + 학번: 20212963
-'''
+
 
 <h2> 설치 방법 </h2>
 
