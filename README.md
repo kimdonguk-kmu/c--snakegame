@@ -47,7 +47,8 @@ Poison item -> snake의 head와 겹치면 몸의 길이가 1만큼 감소한다.
 
 ```
 **scoreboard**는 현재 snake game의 현황을 나타낸다.
-**scoreboard**는 snake의 현재 몸길이, 먹은 item들의 수, 통과한 gate의 수, 현재 level과 플레이한 time이 출력돠며 실시간으로 조정된다.
+**scoreboard**는 snake의 몸길이, 먹은 item, 통과한 gate, level, time이 출력된다.
+**scoreboard**는 출력된 현황의 내용이 바뀌면 실시간으로 조정된다.
 **scoreboard**는 다음 level로 이동하게 되면 초기화된다.
 ```
 ```
