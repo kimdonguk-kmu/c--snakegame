@@ -46,16 +46,16 @@ Poison item -> snake의 head와 겹치면 몸의 길이가 1만큼 감소한다.
 <h3> 스코어보드, 미션 </h3>
 
 ```
-**scoreboard**는 현재 snake game의 현황을 나타낸다.
-**scoreboard**는 snake의 몸길이, 먹은 item, 통과한 gate, level, time이 출력된다.
-**scoreboard**는 출력된 현황의 내용이 바뀌면 실시간으로 조정된다.
-**scoreboard**는 다음 level로 이동하게 되면 초기화된다.
+scoreboard는 현재 snake game의 현황을 나타낸다.
+scoreboard는 snake의 몸길이, 먹은 item, 통과한 gate, level, time이 출력된다.
+scoreboard는 출력된 현황의 내용이 바뀌면 실시간으로 조정된다.
+scoreboard는 다음 level로 이동하게 되면 초기화된다.
 ```
 ```
-**mission**은 다음 level로 이동하기 위해 달성해야 하는 조건이다.
-**mission**은 snake의 몸 길이, 먹은 item들의 수, 통과한 gate의 수로 이루어져 있다.
-**mission**을 모두 달성하면 그 즉시 다음 level로 이동한다.
-**mission**은 level마다 다르게 설정되어있다.
+mission은 다음 level로 이동하기 위해 달성해야 하는 조건이다.
+mission은 snake의 몸 길이, 먹은 item들의 수, 통과한 gate의 수로 이루어져 있다.
+mission을 모두 달성하면 그 즉시 다음 level로 이동한다.
+mission은 level마다 다르게 설정되어있다.
 ```
 
 <h3> 승리 조건 </h3>
